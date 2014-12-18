@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app="activeUI">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%= title %></title>
+    <link rel='stylesheet' href='../js/lib/bootstrap3.3.0/css/bootstrap.css' />
+    <link rel='stylesheet' href='../css/style.css' />
+    <script type="text/javascript" src="../js/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="../js/angular.js"></script>
+    <script type="text/javascript" src="../js/lib/bootstrap3.3.0/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/fabric.js/dist/fabric.js"></script>
+    <!--全局 -->
+    <script type="text/javascript" src="../js/activeUI/logger.js"></script>
+    <script type="text/javascript" src="../js/activeUI/global.js"></script>
+    <!--业务系统初始化数据 -->
+    <script type="text/javascript" src="../js/activeUI/config-init.js"></script>
+    <!--fabric相关,主要负责canvas画布的操作. -->
+    <script type="text/javascript" src="../js/activeUI/shapes/element.class.js"></script>
+    <script type="text/javascript" src="../js/activeUI/operate/canvas-ctrl.js"></script>
+    <!--angular相关,主要负责canvas之外的dom操作,以及对外提供的接口 -->
+    <script type="text/javascript" src="../js/activeUI/operate/operate-init.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <h3><%= title %></h3>
+          <div class="row">
+            <div class="col-md-2 operate-container"></div>
+            <div class="col-md-8" ng-controller="toolbarCtrl">
+              <div class="btn-group btn-group-sm toolbar">
+                <button type="button" class="btn btn-default {{tool.active}}" ng-repeat="tool in tools" ng-click="chooseTool($index)">{{tool.title}}</button>
+              </div>
+            </div>
+          </div>
+          <div class="row" >
+            <div class="col-md-2 operate-container well" ng-controller="operateCtrl">
+              <div class="row operate-row">
+                <div class="col-ac-12"><h5><b>A区:</b></h5></div>
+                <div class="col-ac-4" ng-repeat='item in operators'>
+                  <img ng-src="{{item.img}}" class="width-100 img-rounded" draggable="true" />
+                  {{item.title + $index}}
+                </div>
+              </div>
+              <!-- <div class="row operate-row">
+                    <div class="col-ac-12"><h5><b>B区:</b></h5></div>
+                    <div class="col-ac-4" ng-repeat='item in list1'>
+                        <img ng-src="{{item.img}}" class="width-100 img-rounded" draggable="true" />
+                        {{item.title + $index}}
+                    </div>
+              </div> -->
+            </div>
+            <div class="col-md-8">
+              <canvas id="activeCanvas"></canvas>
+            </div>
+            <div class="col-md-2" >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

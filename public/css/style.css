@@ -1,0 +1,67 @@
+/** col-ac只能作为叶子节点,它下面的row没有定义. */
+.col-ac, .col-ac-1, .col-ac-2, .col-ac-3, .col-ac-4, .col-ac-5, .col-ac-6, .col-ac-7, .col-ac-8, .col-ac-9, .col-ac-10, .col-ac-11, .col-ac-12 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 5px;
+    padding-left: 5px;
+    float: left;
+}
+
+.col-ac-12 {
+    width: 100%;
+}
+.col-ac-11 {
+    width: 91.66666667%;
+}
+.col-ac-10 {
+    width: 83.33333333%;
+}
+.col-ac-9 {
+    width: 75%;
+}
+.col-ac-8 {
+    width: 66.66666667%;
+}
+.col-ac-7 {
+    width: 58.33333333%;
+}
+.col-ac-6 {
+    width: 50%;
+}
+.col-ac-5 {
+    width: 41.66666667%;
+}
+.col-ac-4 {
+    width: 33.33333333%;
+}
+.col-ac-3 {
+    width: 25%;
+}
+.col-ac-2 {
+    width: 16.66666667%;
+}
+.col-ac-1 {
+    width: 8.33333333%;
+}
+.width-100 {
+    width: 100%;
+}
+
+/***页面特有***/
+.operate-container {
+  width: 190px;
+}
+.operate-row {
+  text-align: center;
+}
+
+
+/**TEMP**/
+canvas {
+    border: #eee 1px solid;
+    width: 100%;
+    height: 500px;
+}
+.toolbar {
+    margin-bottom: 10px;
+}
