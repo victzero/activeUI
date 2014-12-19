@@ -1,4 +1,11 @@
+/**
+ * 声明全局变量act的命名空间.
+ * 声明app为angular主模块.
+ * @type {[type]}
+ */
 var app = angular.module('activeUI', []); // ng-app
+var act = act || (act = {}),
+  extend = fabric.util.object.extend;
 
 /**
  * angular全局配置
@@ -9,21 +16,56 @@ app.config(function($interpolateProvider) {
     .endSymbol('}}');
 });
 
-var actGlobal = {
+var actMode = {
   _toolMode: 'move', //默认模式
   setMode: function(mode) {
+    var set2MoveMode = function(canvas) {
+      canvas.selection = true;
+      canvas.moveCursor = 'move';
+      canvas.hoverCursor = 'move';
+      var objs = canvas.getObjects()
+      for (var i = objs.length - 1; i >= 0; i--) {
+        objs[i].lockMovementX = false;
+        objs[i].lockMovementY = false;
+      };
+      canvas.renderAll();
+    }
+    var set2ConnectMode = function(canvas) {
+      //移动模式结束时需要取消所有选中的对象.
+      canvas.selection = false; //禁止选中
+
+      //禁止拖拽
+      canvas.moveCursor = 'default';
+      canvas.hoverCursor = 'default';
+      var objs = canvas.getObjects()
+      for (var i = objs.length - 1; i >= 0; i--) {
+        objs[i].lockMovementX = true;
+        objs[i].lockMovementY = true;
+      };
+      canvas.renderAll();
+    }
     if (mode) {
       (this._toolMode = mode);
       log.debug('切换到模式:' + mode);
+
+      if (mode == 'move') {
+        set2MoveMode(act.canvas);
+      }
+      if (mode == 'connect') {
+        set2ConnectMode(act.canvas);
+      }
     }
   },
-  isMove: function() {
+  isMoveMode: function() {
     return this._toolMode === 'move';
   },
-  isConnect: function() {
+  isConnectMode: function() {
     return this._toolMode === 'connect';
   }
 };
+act = extend(act, actMode);
+
+act.operator = []; //操作对象区配置信息.
 
 /**
  * 自定义drag drop属性,允许指定的html标签可拖拽.
@@ -35,7 +77,12 @@ app.directive('draggable', function() {
     el.draggable = true;
     el.addEventListener('dragstart', function(e) {
       e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('Text', this.id);
+      var $this = $(this);
+      var namespace = $this.data('namespace');
+      e.dataTransfer.setData('namespace', namespace);
+
+      var index = $this.data('index');
+      e.dataTransfer.setData('index', index);
       this.classList.add('drag');
       return false;
     }, false);
@@ -96,3 +143,10 @@ app.directive('droppable', function() {
     }
   }
 });
+
+
+if (typeof String.prototype.endsWith !== 'function') {
+  String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+  };
+}

@@ -14,12 +14,13 @@
     <script type="text/javascript" src="../js/activeUI/logger.js"></script>
     <script type="text/javascript" src="../js/activeUI/global.js"></script>
     <!--业务系统初始化数据 -->
-    <script type="text/javascript" src="../js/activeUI/config-init.js"></script>
+    <script type="text/javascript" src="../js/activeUI/global-config.js"></script>
     <!--fabric相关,主要负责canvas画布的操作. -->
     <script type="text/javascript" src="../js/activeUI/shapes/element.class.js"></script>
-    <script type="text/javascript" src="../js/activeUI/operate/canvas-ctrl.js"></script>
+    <script type="text/javascript" src="../js/activeUI/operate/canvas-init.js"></script>
+    <script type="text/javascript" src="../js/activeUI/operate/eventHandle.js"></script>
     <!--angular相关,主要负责canvas之外的dom操作,以及对外提供的接口 -->
-    <script type="text/javascript" src="../js/activeUI/operate/operate-init.js"></script>
+    <script type="text/javascript" src="../js/activeUI/operate/operateCtrl.js"></script>
   </head>
   <body>
     <div class="container-fluid">
@@ -39,7 +40,7 @@
               <div class="row operate-row">
                 <div class="col-ac-12"><h5><b>A区:</b></h5></div>
                 <div class="col-ac-4" ng-repeat='item in operators'>
-                  <img ng-src="{{item.img}}" class="width-100 img-rounded" draggable="true" />
+                  <img data-namespace="operator" data-index="{{$index}}" ng-src="{{item.img}}" class="width-100 img-rounded" draggable="true" />
                   {{item.title + $index}}
                 </div>
               </div>

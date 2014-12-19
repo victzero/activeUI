@@ -8,7 +8,7 @@ var operateCtrl = ['$scope', function($scope) {
 //操作区初始化.
 var configOperate = function($scope) {
   //操作对象初始化.
-  $scope.operators = aconfig.operator;
+  $scope.operators = act.operator;
 }
 
 app.controller('operateCtrl', operateCtrl);
@@ -24,11 +24,17 @@ var configToolbar = function($scope) {
   $scope.tools = [{
     title: '移动|选择',
     active: 'active',
-    mode: 'move'
+    mode: 'move',
+    action: function() {
+      act.setMode('move');
+    }
   }, {
     title: '连线|拖动',
     active: '',
-    mode: 'connect'
+    mode: 'connect',
+    action: function() {
+      act.setMode('connect');
+    }
   }, {
     title: '保存图片',
     active: '',
@@ -40,10 +46,8 @@ var configToolbar = function($scope) {
 
   $scope.chooseTool = function(index) {
     var tool = $scope.tools[index];
-    if (tool.mode != null) {
+    if (tool.mode != null) { // 修改激活状态.
       tool.active = 'active';
-      actGlobal.setMode(tool.mode);
-
       for (var j = 0; j < $scope.tools.length; j++) {
         if (j != index) {
           $scope.tools[j].active = '';

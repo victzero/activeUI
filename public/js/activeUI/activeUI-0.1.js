@@ -3,8 +3,6 @@ var canvas = this.__canvas = new fabric.Canvas('activeCanvas', {
 });
 fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
 
-
-
   /**
    * [ondrop description]
    * 将图片拖动到canvas画布时的操作。
@@ -606,7 +604,7 @@ fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
     }
     // largeElementsTest();
 
-  var ctx = hawkeye_ctx;
+  // var ctx = hawkeye_ctx;
 
   function drawLinearGradient() {
     var _gm, _pattern, _img;

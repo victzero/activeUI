@@ -1,4 +1,4 @@
-var act = {},
+var act = act || (act = {}),
   extend = fabric.util.object.extend;
 
 /**
@@ -23,15 +23,6 @@ act.Node = fabric.util.createClass({
     fill: '#333',
     hasControls: false,
     hasBorders: false,
-    lockMovementX: true,
-    lockMovementY: true,
-    lockRotation: true,
-    lockScalingX: true,
-    lockScalingY: true,
-    lockUniScaling: true,
-    lockScalingFlip: true,
-    hoverCursor: 'default',
-    moveCursor: 'default',
   },
   initialize: function(options) {
     options && this.setOptions(options);
@@ -62,6 +53,7 @@ act.Node = fabric.util.createClass({
     }
   },
   _afterLoad: function() {
+
     this._initPic(); //在图片加载完毕后进行初始化操作.
     this.label && this._loadLabel(); //加载描述文字
 
@@ -80,26 +72,40 @@ act.Node = fabric.util.createClass({
     }).scale(1).setCoords();
 
     this.loadedObject.on('moving', function(op) {
-      _this._updateNode();
+      _this._updateNode('pic');
     })
   },
   _loadLabel: function() {
+    var _this = this;
     var labelOpt = extend({
       left: this.left,
       top: this._getLabelTop(),
     }, this.textOptions);
     this.text = new fabric.Text(this.label, labelOpt);
+    this.text.on('moving', function() {
+      _this._updateNode('label');
+    })
   },
   _getLabelTop: function() {
-    return this.top + this.height / 2 + this.textOptions.fontSize / 2;
+    return this.top + this.height / 2 + this.textOptions.fontSize / 2
   },
-  _updateNode: function(op) {
-    this.left = this.loadedObject.left;
-    this.top = this.loadedObject.top;
-    this.text.set({
-      left: this.left,
-      top: this._getLabelTop(),
-    })
+  _updateNode: function(src) {
+
+    if (src == 'label') { //label标签
+      this.left = this.text.left;
+      this.top = this.text.top - this.textOptions.fontSize / 2 - this.height / 2
+      this.loadedObject.set({
+        left: this.left,
+        top: this.top,
+      }).setCoords();
+    } else if (src == 'pic') {
+      this.left = this.loadedObject.left;
+      this.top = this.loadedObject.top;
+      this.text.set({
+        left: this.left,
+        top: this._getLabelTop()
+      }).setCoords();
+    }
   },
   _renderAll: function() {
     this.loadedObject && canvas.add(this.loadedObject);
@@ -167,6 +173,10 @@ fabric.Element = fabric.util.createClass(fabric.Circle, {
     }
   }
 });
+
+act.addNode = function(options) {
+  var node = new act.Node(options); //新建的对象无需调用renderAll方法,在Pic加载完成后自动render
+}
 
 var _ElementNum = 0;
 
