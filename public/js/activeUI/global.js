@@ -18,41 +18,41 @@ app.config(function($interpolateProvider) {
 
 var actMode = {
   _toolMode: 'move', //默认模式
-  setMode: function(mode) {
-    var set2MoveMode = function(canvas) {
-      canvas.selection = true;
-      canvas.moveCursor = 'move';
-      canvas.hoverCursor = 'move';
-      var objs = canvas.getObjects()
-      for (var i = objs.length - 1; i >= 0; i--) {
-        objs[i].lockMovementX = false;
-        objs[i].lockMovementY = false;
-      };
-      canvas.renderAll();
-    }
-    var set2ConnectMode = function(canvas) {
-      //移动模式结束时需要取消所有选中的对象.
-      canvas.selection = false; //禁止选中
+  _set2MoveMode: function(canvas) {
+    canvas.selection = true;
+    canvas.moveCursor = 'move';
+    canvas.hoverCursor = 'move';
+    var objs = canvas.getObjects()
+    for (var i = objs.length - 1; i >= 0; i--) {
+      objs[i].lockMovementX = false;
+      objs[i].lockMovementY = false;
+    };
+    canvas.renderAll();
+  },
+  _set2ConnectMode: function(canvas) {
+    //移动模式结束时需要取消所有选中的对象.
+    canvas.selection = false; //禁止选中
 
-      //禁止拖拽
-      canvas.moveCursor = 'default';
-      canvas.hoverCursor = 'default';
-      var objs = canvas.getObjects()
-      for (var i = objs.length - 1; i >= 0; i--) {
-        objs[i].lockMovementX = true;
-        objs[i].lockMovementY = true;
-      };
-      canvas.renderAll();
-    }
+    //禁止拖拽
+    canvas.moveCursor = 'default';
+    canvas.hoverCursor = 'default';
+    var objs = canvas.getObjects()
+    for (var i = objs.length - 1; i >= 0; i--) {
+      objs[i].lockMovementX = true;
+      objs[i].lockMovementY = true;
+    };
+    canvas.renderAll();
+  },
+  setMode: function(mode) {
     if (mode) {
       (this._toolMode = mode);
       log.debug('切换到模式:' + mode);
 
       if (mode == 'move') {
-        set2MoveMode(act.canvas);
+        act._set2MoveMode(act.canvas);
       }
       if (mode == 'connect') {
-        set2ConnectMode(act.canvas);
+        act._set2ConnectMode(act.canvas);
       }
     }
   },
@@ -65,7 +65,32 @@ var actMode = {
 };
 act = extend(act, actMode);
 
-act.operator = []; //操作对象区配置信息.
+act.guid = (function() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return function() {
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
+  };
+})();
+
+//默认配置.
+act.config = {
+  canvas: {
+    width: 1250,
+    height: 550
+  },
+  operator: [], //操作对象区配置信息.
+  lineOptions: {
+    fill: 'red',
+    stroke: 'red',
+    strokeWidth: 5,
+    selectable: false
+  },
+}
 
 /**
  * 自定义drag drop属性,允许指定的html标签可拖拽.

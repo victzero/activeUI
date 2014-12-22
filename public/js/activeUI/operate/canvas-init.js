@@ -3,8 +3,8 @@ var canvas;
 $(function() {
   canvas = new fabric.Canvas('activeCanvas', {
     selection: true,
-    'width': '1250',
-    'height': '550'
+    'width': act.config.canvas.width,
+    'height': act.config.canvas.height
   });
   fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
 
@@ -46,6 +46,18 @@ $(function() {
     var group = canvas.getActiveGroup();
     // Detect if group has locked items, perhaps using group.forEachObject()
     group.hasControls = false;
+    console.log('group created.')
+    if (act.isMoveMode()) {
+      group.on('moving', function(p) {
+        for (var i = 0; i < group.getObjects().length; i++) {
+          var obj = group.getObjects()[i];
+          if (obj.isNode) {
+            obj.parentEle._updateNode('pic', this.getCenterPoint());
+            // obj.fire('moving')
+          }
+        }
+      })
+    }
   });
 
   canvas.upperCanvasEl.ondragover = function(ev) {
@@ -54,22 +66,5 @@ $(function() {
   }
   canvas.upperCanvasEl.ondrop = canvasOndrop;
 
-  var _labelNum = 0;
-
-  function addElement(p) {
-    var de = new act.Node({
-      left: p.x,
-      top: p.y,
-      url: '../images/51.svg',
-      label: 'label' + _labelNum++,
-    });
-    // if (actGlobal.isConnectMode()) {
-    //   de.lockMovementX = true;
-    //   de.lockMovementY = true;
-    // }
-    canvas.renderAll();
-  }
-
   act.canvas = canvas;
 });
-

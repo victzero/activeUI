@@ -190,7 +190,7 @@ fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
   });
 
   function movingObject(tar, centerPoint) {
-    if (tar._objects) {
+    if (tar._objects) {// 组拖动,centerPoint为组的中心.
       for (var i = tar._objects.length - 1; i >= 0; i--) {
         movingObject(tar._objects[i], tar.getCenterPoint())
       };
