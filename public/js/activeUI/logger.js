@@ -22,4 +22,4 @@ var log = {
 // 默认配置.
 log.config.info = true;
 log.config.warn = true;
-log.config.debug = true;
+log.config.debug = false;

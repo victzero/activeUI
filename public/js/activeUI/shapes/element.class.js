@@ -99,6 +99,7 @@ act.Node = fabric.util.createClass({
     }).scale(1).setCoords();
 
     this.loadedObject.on('moving', function(op) {
+      log.debug('pic is moving')
       _this._updateNode('pic');
     })
   },
@@ -113,6 +114,7 @@ act.Node = fabric.util.createClass({
       parentEle: this,
     });
     this.text.on('moving', function() {
+      log.debug('label is moving')
       _this._updateNode('label');
     })
   },
@@ -123,7 +125,10 @@ act.Node = fabric.util.createClass({
     if (act.isConnectMode()) {
       return;
     }
-
+    cp || (cp = {
+      x: 0,
+      y: 0
+    });
     if (src == 'label') { //label标签
       this.left = this.text.left;
       this.top = this.text.top - this.textOptions.fontSize / 2 - this.height / 2
@@ -132,36 +137,32 @@ act.Node = fabric.util.createClass({
         top: this.top,
       }).setCoords();
     } else if (src == 'pic') {
-      this.left = this.loadedObject.left;
-      this.top = this.loadedObject.top;
+      this.left = this.loadedObject.left + cp.x;
+      this.top = this.loadedObject.top + cp.y;
       this.text.set({
-        left: this.left,
-        top: this._getLabelTop()
+        left: this.left - cp.x,
+        top: this._getLabelTop() - cp.y
       }).setCoords();
     }
-    this._updateLines(cp);
+    this._updateLines();
   },
-  _updateLines: function(cp) {
+  _updateLines: function() {
     //TODO:更新相关连线.
-    cp || (cp = {
-      x: 0,
-      y: 0
-    });
     // console.log('_updateLines,src:' + this.srcLine + ',target:' + this.targetLine)
     for (var key in this.srcLine) {
       var line = this.srcLine[key];
       // console.log('_updateLines of src:' + key)
       line.update({
-        'x1': this.left + cp.x,
-        'y1': this.top + cp.y
+        'x1': this.left,
+        'y1': this.top
       });
     }
     for (var key in this.targetLine) {
       var line = this.targetLine[key];
       // console.log('_updateLines of target:' + key)
       line.update({
-        'x2': this.left + cp.x,
-        'y2': this.top + cp.y
+        'x2': this.left,
+        'y2': this.top
       });
     }
 
