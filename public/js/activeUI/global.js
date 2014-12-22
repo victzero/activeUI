@@ -83,7 +83,7 @@ act.config = {
     width: 1250,
     height: 550
   },
-  operator: [], //操作对象区配置信息.
+  operators: [], //操作对象区配置信息.
   lineOptions: {
     fill: 'red',
     stroke: 'red',
@@ -103,8 +103,8 @@ app.directive('draggable', function() {
     el.addEventListener('dragstart', function(e) {
       e.dataTransfer.effectAllowed = 'move';
       var $this = $(this);
-      var namespace = $this.data('namespace');
-      e.dataTransfer.setData('namespace', namespace);
+      var pindex = $this.data('pindex');
+      e.dataTransfer.setData('pindex', pindex);
 
       var index = $this.data('index');
       e.dataTransfer.setData('index', index);

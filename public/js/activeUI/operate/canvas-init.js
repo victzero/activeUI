@@ -17,9 +17,9 @@ $(function() {
     ev = ev || window.event;
 
     var p = canvas.getPointer(ev);
-    var namespace = ev.dataTransfer.getData('namespace');
+    var pindex = ev.dataTransfer.getData('pindex');
     var index = ev.dataTransfer.getData('index');
-    var obj = aconfig[namespace][index];
+    var obj = act.config['operators'][pindex]['objs'][index];
     if (!obj) {
       return;
     }

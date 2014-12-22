@@ -37,11 +37,11 @@
           </div>
           <div class="row" >
             <div class="col-md-2 operate-container well" ng-controller="operateCtrl">
-              <div class="row operate-row">
-                <div class="col-ac-12"><h5><b>A区:</b></h5></div>
-                <div class="col-ac-4" ng-repeat='item in operators'>
-                  <img data-namespace="operator" data-index="{{$index}}" ng-src="{{item.img}}" class="width-100 img-rounded" draggable="true" />
-                  {{item.title + $index}}
+              <div class="row operate-row" ng-repeat='item in operators'>
+                <div class="col-ac-12" ng-init="p_index=$index"><h5><b>{{item.heading}}</b></h5></div>
+                <div class="col-ac-4" ng-repeat='obj in item.objs'>
+                  <img data-pindex="{{p_index}}" data-index="{{$index}}" ng-src="{{obj.img}}" class="width-100 img-rounded" draggable="true" />
+                  {{obj.title}}
                 </div>
               </div>
               <!-- <div class="row operate-row">

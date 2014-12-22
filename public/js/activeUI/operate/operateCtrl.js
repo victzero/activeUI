@@ -8,7 +8,7 @@ var operateCtrl = ['$scope', function($scope) {
 //操作区初始化.
 var configOperate = function($scope) {
   //操作对象初始化.
-  $scope.operators = act.config.operator;
+  $scope.operators = act.config.operators;
 }
 
 app.controller('operateCtrl', operateCtrl);
