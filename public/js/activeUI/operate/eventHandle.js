@@ -13,7 +13,6 @@ $(function() {
       }
       var activeNode = activeObj.get('parentEle');
 
-
       activeLine = new act.Cline([activeNode.left, activeNode.top, activeNode.left, activeNode.top], {
 
       });

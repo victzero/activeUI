@@ -40,19 +40,19 @@ $(function() {
   };
 
   /**
-   * 禁止对group旋转和缩放.
+   *
    */
   canvas.observe('selection:created', function() {
     var group = canvas.getActiveGroup();
     // Detect if group has locked items, perhaps using group.forEachObject()
-    group.hasControls = false;
-    console.log('group created.')
+    group.hasControls = false; //禁止对group旋转和缩放.
+    log.debug('group created.')
     if (act.isMoveMode()) {
       group.on('moving', function(p) {
         for (var i = 0; i < group.getObjects().length; i++) {
           var obj = group.getObjects()[i];
           if (obj.isNode) {
-            obj.parentEle._updateNode('pic', this.getCenterPoint());
+            obj.parentEle._updateNode('group', this.getCenterPoint());
             // obj.fire('moving')
           }
         }

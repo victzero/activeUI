@@ -25,6 +25,7 @@ act.Node = fabric.util.createClass({
   height: 0,
   loadedObject: null,
   text: null,
+  group: null,
   textOptions: {
     fontSize: 14,
     fontFamily: 'Helvetica',
@@ -67,21 +68,17 @@ act.Node = fabric.util.createClass({
     this._initPic(); //在图片加载完毕后进行初始化操作.
     this.label && this._loadLabel(); //加载描述文字
 
-    this._matchMode();
+
     this._renderAll();
   },
   _matchMode: function() {
     if (act.isConnectMode()) {
-      this.loadedObject.lockMovementX = true;
-      this.loadedObject.lockMovementY = true;
-      this.text.lockMovementX = true;
-      this.text.lockMovementY = true;
+      this.group.lockMovementX = true;
+      this.group.lockMovementY = true;
     }
     if (act.isMoveMode()) {
-      this.loadedObject.lockMovementX = false;
-      this.loadedObject.lockMovementY = false;
-      this.text.lockMovementX = false;
-      this.text.lockMovementY = false;
+      this.group.lockMovementX = false;
+      this.group.lockMovementY = false;
     }
   },
   _initPic: function() {
@@ -95,13 +92,12 @@ act.Node = fabric.util.createClass({
       hasBorders: false,
       hasControls: false,
       parentEle: this,
-      isNode: true
     }).scale(1).setCoords();
 
-    this.loadedObject.on('moving', function(op) {
-      log.debug('pic is moving')
-      _this._updateNode('pic');
-    })
+    // this.loadedObject.on('moving', function(op) {
+    //   log.debug('pic is moving')
+    //   _this._updateNode('pic');
+    // })
   },
   _loadLabel: function() {
     var _this = this;
@@ -113,10 +109,10 @@ act.Node = fabric.util.createClass({
     this.text.set({
       parentEle: this,
     });
-    this.text.on('moving', function() {
-      log.debug('label is moving')
-      _this._updateNode('label');
-    })
+    // this.text.on('moving', function() {
+    //   log.debug('label is moving')
+    //   _this._updateNode('label');
+    // })
   },
   _getLabelTop: function() {
     return this.top + this.height / 2 + this.textOptions.fontSize / 2
@@ -143,6 +139,9 @@ act.Node = fabric.util.createClass({
         left: this.left - cp.x,
         top: this._getLabelTop() - cp.y
       }).setCoords();
+    } else if (src == 'group') {
+      this.left = this.group.left + cp.x;
+      this.top = this.group.top + cp.y;
     }
     this._updateLines();
   },
@@ -168,8 +167,28 @@ act.Node = fabric.util.createClass({
 
   },
   _renderAll: function() {
-    this.loadedObject && canvas.add(this.loadedObject);
-    this.text && canvas.add(this.text)
+    // this.loadedObject && canvas.add(this.loadedObject);
+    // this.text && canvas.add(this.text)
+
+    var _this = this;
+    var group = new fabric.Group([this.loadedObject, this.text], {
+      left: this.left,
+      top: this.top,
+      hasBorders: false,
+      hasControls: false,
+      parentEle: this,
+      isNode: true
+    });
+    //group.add();
+    group.on('moving', function(op) {
+      _this._updateNode('group');
+    });
+
+    this.group = group;
+    this._matchMode();
+
+    canvas.add(group);
+
     act.nodeObjs.push(this);
   },
   addSrcLine: function(line) {
