@@ -148,7 +148,8 @@ $(function() {
         return;
       }
       activeObj.get('parentEle').remove();
-    }
+    },
+
   };
   act.rc = rightClick;
 });

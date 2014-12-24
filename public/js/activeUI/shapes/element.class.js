@@ -2,33 +2,43 @@ var act = act || (act = {}),
   extend = fabric.util.object.extend;
 
 act.nodes = {
-    nodeObjs: {},
-    add: function(node) {
-      this.nodeObjs[node._id] = node;
-    },
-    remove: function(node) {
-      delete this.nodeObjs[node._id];
-    },
-    showAll: function() {
-      var objs = this.nodeObjs;
-      var i = 0;
-      for (var key in objs) {
-        console.log('node[' + i + ']:' + key +
-          '\n\t\tlabel:' + objs[key].label + ',left:' + objs[key].left + ',top:' + objs[key].top +
-          '\n\t\tsrcLine length:' + Object.keys(objs[key].srcLine).length +
-          '\n\t\ttargetLine length:' + Object.keys(objs[key].targetLine).length);
-        i++;
-      }
+  nodeObjs: {},
+  get: function(id) {
+    return this.nodeObjs[id];
+  },
+  add: function(node) {
+    this.nodeObjs[node._id] = node;
+  },
+  remove: function(node) {
+    delete this.nodeObjs[node._id];
+  },
+  showAll: function() {
+    var objs = this.nodeObjs;
+    var i = 0;
+    for (var key in objs) {
+      console.log('node[' + i + ']:' + key +
+        '\n\t\tlabel:' + objs[key].label + ',left:' + objs[key].left + ',top:' + objs[key].top +
+        '\n\t\tsrcLine length:' + Object.keys(objs[key].srcLine).length +
+        '\n\t\ttargetLine length:' + Object.keys(objs[key].targetLine).length);
+      i++;
     }
   }
-  /**
-   * 此类为框架操作对象.由于拖拽并新增节点时,需要同时添加多个fabric对象,所以使用该类进行统一操作.
-   * 新增的对象包括如下信息:
-   * type: 对象类型image||svg,可选,默认为svg
-   * url: url地址
-   * label: 描述信息,可以使用\n进行换行.
-   * top,left:安放的坐标位置
-   */
+};
+act.getActiveNode = function() {
+  var activeObj = canvas.getActiveObject();
+  if(!activeObj){
+    return null;
+  }
+  return activeObj.get('parentEle');
+};
+/**
+ * 此类为框架操作对象.由于拖拽并新增节点时,需要同时添加多个fabric对象,所以使用该类进行统一操作.
+ * 新增的对象包括如下信息:
+ * type: 对象类型image||svg,可选,默认为svg
+ * url: url地址
+ * label: 描述信息,可以使用\n进行换行.
+ * top,left:安放的坐标位置
+ */
 act.Node = fabric.util.createClass({
   type: 'svg', //svg || image
   _id: null,
