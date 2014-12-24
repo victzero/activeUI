@@ -36,7 +36,9 @@ $(function() {
       url: obj.img,
       type: type,
       label: obj.title
-    })
+    });
+
+    act.stopEvent(ev);
   };
 
   /**
@@ -61,7 +63,7 @@ $(function() {
   });
 
   canvas.upperCanvasEl.ondragover = function(ev) {
-    ev.preventDefault();
+    act.stopEvent(ev);
     return;
   }
   canvas.upperCanvasEl.ondrop = canvasOndrop;

@@ -8,25 +8,31 @@ var aconfig = {
   operators: [{
     heading: 'A区',
     objs: [{
-      'title': '人物0',
+      'type': 101,
+      'title': '人物101',
       'img': '../images/51.svg'
     }, {
-      'title': '人物1',
+      'type': 102,
+      'title': '人物102',
       'img': '../images/a.jpg'
     }, {
-      'title': '人物2',
+      'type': 103,
+      'title': '人物103',
       'img': '../images/51.svg'
     }]
   }, {
     heading: 'B区',
     objs: [{
-      'title': '人物10',
+      'type': 201,
+      'title': '人物201',
       'img': '../images/a.jpg'
     }, {
-      'title': '人物11',
+      'type': 202,
+      'title': '人物202',
       'img': '../images/51.svg'
     }, {
-      'title': '人物12',
+      'type': 203,
+      'title': '人物203',
       'img': '../images/a.jpg'
     }]
   }],

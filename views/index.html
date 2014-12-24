@@ -6,6 +6,16 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='../js/lib/bootstrap3.3.0/css/bootstrap.css' />
     <link rel='stylesheet' href='../css/style.css' />
+    <style type="text/css">
+    .amenu {
+        position:absolute;
+        display:none;
+        margin:0;
+        padding:0;
+        border:1px solid #ccc;
+        list-style:none;
+    }
+    </style>
     <script type="text/javascript" src="../js/jquery-1.11.1.js"></script>
     <script type="text/javascript" src="../js/angular.js"></script>
     <script type="text/javascript" src="../js/lib/bootstrap3.3.0/js/bootstrap.js"></script>
@@ -44,13 +54,6 @@
                   {{obj.title}}
                 </div>
               </div>
-              <!-- <div class="row operate-row">
-                    <div class="col-ac-12"><h5><b>B区:</b></h5></div>
-                    <div class="col-ac-4" ng-repeat='item in list1'>
-                        <img ng-src="{{item.img}}" class="width-100 img-rounded" draggable="true" />
-                        {{item.title + $index}}
-                    </div>
-              </div> -->
             </div>
             <div class="col-md-8">
               <canvas id="activeCanvas"></canvas>
@@ -60,6 +63,12 @@
           </div>
         </div>
       </div>
+    </div>
+    <div id="amenu" class="open amenu">
+      <ul class="dropdown-menu">
+        <li><a href="javascript:act.rc.deleteNode()">删除</a></li>
+        <li><a href="#">下拉链接 2</a></li>
+      </ul>
     </div>
   </body>
 </html>

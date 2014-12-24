@@ -46,6 +46,7 @@ var actMode = {
   setMode: function(mode) {
     if (mode) {
       (this._toolMode = mode);
+      canvas.deactivateAll();
       log.debug('切换到模式:' + mode);
 
       if (mode == 'move') {
@@ -77,6 +78,13 @@ act.guid = (function() {
   };
 })();
 
+act.stopEvent = function(ev) {
+  if (ev) {
+    ev.preventDefault && ev.preventDefault();
+    ev.stopPropagation && ev.stopPropagation();
+  }
+}
+
 //默认配置.
 act.config = {
   canvas: {
@@ -84,10 +92,11 @@ act.config = {
     height: 550
   },
   operators: [], //操作对象区配置信息.
+  opScaling: 1, //加载对象的默认缩放值.
   lineOptions: {
-    fill: 'red',
+    fill: 'black',
     stroke: 'red',
-    strokeWidth: 5,
+    strokeWidth: 3,
     selectable: false
   },
 }

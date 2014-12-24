@@ -1,24 +1,37 @@
 var act = act || (act = {}),
   extend = fabric.util.object.extend;
 
-act.nodeObjs = [];
-act.showAllNode = function() {
-  for (var i = 0; i < act.nodeObjs.length; i++) {
-    console.log('node[' + i + ']:' + act.nodeObjs[i].label + ',left:' + act.nodeObjs[i].left + ',top:' + act.nodeObjs[i].top);
-    console.log('node[' + i + '].srcLine length:' + Object.keys(act.nodeObjs[i].srcLine).length);
-    console.log('node[' + i + '].targetLine length:' + Object.keys(act.nodeObjs[i].targetLine).length);
+act.nodes = {
+    nodeObjs: {},
+    add: function(node) {
+      this.nodeObjs[node._id] = node;
+    },
+    remove: function(node) {
+      delete this.nodeObjs[node._id];
+    },
+    showAll: function() {
+      var objs = this.nodeObjs;
+      var i = 0;
+      for (var key in objs) {
+        console.log('node[' + i + ']:' + key +
+          '\n\t\tlabel:' + objs[key].label + ',left:' + objs[key].left + ',top:' + objs[key].top +
+          '\n\t\tsrcLine length:' + Object.keys(objs[key].srcLine).length +
+          '\n\t\ttargetLine length:' + Object.keys(objs[key].targetLine).length);
+        i++;
+      }
+    }
   }
-};
-/**
- * 此类为框架操作对象.由于拖拽并新增节点时,需要同时添加多个fabric对象,所以使用该类进行统一操作.
- * 新增的对象包括如下信息:
- * type: 对象类型image||svg,可选,默认为svg
- * url: url地址
- * label: 描述信息,可以使用\n进行换行.
- * top,left:安放的坐标位置
- */
+  /**
+   * 此类为框架操作对象.由于拖拽并新增节点时,需要同时添加多个fabric对象,所以使用该类进行统一操作.
+   * 新增的对象包括如下信息:
+   * type: 对象类型image||svg,可选,默认为svg
+   * url: url地址
+   * label: 描述信息,可以使用\n进行换行.
+   * top,left:安放的坐标位置
+   */
 act.Node = fabric.util.createClass({
   type: 'svg', //svg || image
+  _id: null,
   top: 0,
   left: 0,
   width: 0,
@@ -36,6 +49,7 @@ act.Node = fabric.util.createClass({
   initialize: function(options) {
     this.srcLine = {}; //以其为起点,初始化的位置不同,决定了其作用域不同.
     this.targetLine = {}; //以其为终点
+    this._id = act.guid();
     options && this.setOptions(options);
     options.url && this._loadPic(); //加载图片对象.
   },
@@ -183,13 +197,14 @@ act.Node = fabric.util.createClass({
     group.on('moving', function(op) {
       _this._updateNode('group');
     });
+    group.scale(act.config.opScaling).setCoords();
 
     this.group = group;
     this._matchMode();
 
     canvas.add(group);
 
-    act.nodeObjs.push(this);
+    act.nodes.add(this);
   },
   addSrcLine: function(line) {
     this.srcLine[line._id] = line;
@@ -204,6 +219,17 @@ act.Node = fabric.util.createClass({
   },
   deleteTargetLineById: function(id) {
     delete this.targetLine[id];
+  },
+  remove: function() { //删除该节点,即删除该节点所有相关的连线.再删除本身.
+    for (var sl in this.srcLine) {
+      this.srcLine[sl].remove();
+    }
+    for (var tl in this.targetLine) {
+      this.targetLine[tl].remove()
+    }
+    act.nodes.remove(this);
+    canvas.remove(this.group);
+    //释放该节点.
   },
   set: function(key, value) {
     if (typeof key === 'object') {
@@ -248,27 +274,11 @@ act.Node = fabric.util.createClass({
   toString: function() {}
 })
 
-
 /**
- * 每一个可操作元素,暂时使用圆形代替。
+ * [addNode description]
+ * 添加node节点.
+ * @param {[type]} options [description]
  */
-fabric.Element = fabric.util.createClass(fabric.Circle, {
-  type: 'element',
-  initialize: function(options) {
-    options || (options == {});
-    this.callSuper('initialize', options);
-    this.set('label', options.label || '');
-  },
-  _render: function(ctx) {
-    this.callSuper('_render', ctx);
-    if (this.label) {
-      ctx.font = '12px Helvetica';
-      ctx.fillStyle = '#333';
-      ctx.fillText(this.label, -this.width / 2 - this.radius * 1, -this.height / 2 + this.radius * 3);
-    }
-  }
-});
-
 act.addNode = function(options) {
   var node = new act.Node(options); //新建的对象无需调用renderAll方法,在Pic加载完成后自动render
 }
@@ -320,7 +330,7 @@ act.Cline = fabric.util.createClass({
     }
     canvas.renderAll();
   },
-  remove: function() {
+  remove: function() { //把线从节点的关联关系中删除.
     this.fromNode && this.fromNode.deleteSrcLineById(this._id); //存在from时
     this.toNode && this.toNode.deleteTargetLineById(this._id);
     canvas.remove(this.line)
