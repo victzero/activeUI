@@ -16,7 +16,7 @@ act.nodes = {
     var objs = this.nodeObjs;
     var i = 0;
     for (var key in objs) {
-      console.log('node[' + i + ']:' + key +
+      log.debug('node[' + i + ']:' + key +
         '\n\t\tlabel:' + objs[key].label + ',left:' + objs[key].left + ',top:' + objs[key].top +
         '\n\t\tsrcLine length:' + Object.keys(objs[key].srcLine).length +
         '\n\t\ttargetLine length:' + Object.keys(objs[key].targetLine).length);
@@ -226,14 +226,14 @@ act.Node = fabric.util.createClass({
   },
   addSrcLine: function(line) {
     this.srcLine[line._id] = line;
-    console.log('node ' + this.label + ',addSrcLine:' + line._id + ',length:' + Object.keys(this.srcLine).length)
+    log.debug('node ' + this.label + ',addSrcLine:' + line._id + ',length:' + Object.keys(this.srcLine).length)
   },
   deleteSrcLineById: function(id) {
     delete this.srcLine[id];
   },
   addTargetLine: function(line) {
     this.targetLine[line._id] = line;
-    console.log('node ' + this.label + ',addTargetLine:' + line._id + ',length:' + Object.keys(this.srcLine).length)
+    log.debug('node ' + this.label + ',addTargetLine:' + line._id + ',length:' + Object.keys(this.srcLine).length)
   },
   deleteTargetLineById: function(id) {
     delete this.targetLine[id];
@@ -291,7 +291,10 @@ act.Node = fabric.util.createClass({
   },
   toString: function() {
     return ['Node', '_id:' + this._id, 'label:' + this.label].join(',');
-  }
+  },
+  get: function(property) {
+    return this[property];
+  },
 })
 
 /**
@@ -301,6 +304,41 @@ act.Node = fabric.util.createClass({
  */
 act.addNode = function(options) {
   var node = new act.Node(options); //新建的对象无需调用renderAll方法,在Pic加载完成后自动render
+  return node;
+}
+
+/**
+ * [addNodeAround description]
+ * 在指定node周围进行布局.
+ * @param {[type]} node [description]
+ * @param {[type]} around 只缺少x,y坐标的待添加节点的配置信息数组
+ */
+act.addNodeAround = function(node, aroundArr) {
+  var srcLength = Object.keys(node.srcLine).length;
+  var center = {
+    x: node.left,
+    y: node.top
+  };
+  if (srcLength && srcLength != 0) {
+    alert('暂时不支持在已有子节点的节点上追加节点.');
+    return;
+  }
+  var nLength = aroundArr.length;
+  var angle = Math.PI * 2 / nLength; //两点之间的角度.
+  var r = act.config.radius || 120;
+  for (var i = 0; i < nLength; i++) {
+    var ar = aroundArr[i];
+    var end = act.addNode({
+      left: center.x + r * Math.cos(angle * i),
+      top: center.y + r * Math.sin(angle * i),
+      url: ar.img,
+      label: ar.title
+    });
+    new act.Cline().createLink({
+      start: node,
+      end: end
+    });
+  };
 }
 
 act.Cline = fabric.util.createClass({
@@ -326,6 +364,10 @@ act.Cline = fabric.util.createClass({
     if (op.start) { //绑定起点
       this.fromNode = op.start;
       op.start.addSrcLine(this);
+      this.update({
+        'x1': op.start.left,
+        'y1': op.start.top,
+      });
     }
     if (op.end && (target = op.end)) { //绑定终点
       if (target == this.fromNode) {
