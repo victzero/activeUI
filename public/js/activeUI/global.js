@@ -93,6 +93,19 @@ act.config = {
   },
   operators: [], //操作对象区配置信息.
   opScaling: 1, //加载对象的默认缩放值.
+  getByType: function(type) { //根据type获得到operate.
+    //FIXME:可以增加缓存.
+    var ops = act.config.operators;
+    for (var i = ops.length - 1; i >= 0; i--) {
+      var objs = ops[i].objs;
+      for (var j = 0; j < objs.length; j++) {
+        var t = objs[j].type;
+        if (t == type) {
+          return objs[j];
+        }
+      }
+    };
+  },
   lineOptions: {
     fill: 'black',
     stroke: 'red',

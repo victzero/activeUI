@@ -4,10 +4,11 @@
  * @type {Object}
  */
 var log = {
-  config: {
+  config: { // 默认配置.
     info: true,
     warn: true,
     debug: true,
+    error: true,
   },
   info: function(mess) {
     log.config.info && console.info(mess)
@@ -18,8 +19,11 @@ var log = {
   debug: function(mess) {
     log.config.debug && console.debug(mess)
   },
-}
-// 默认配置.
+  error: function(mess) {
+    log.config.error && console.error(mess);
+  }
+};
+//自定义配置.
 log.config.info = true;
 log.config.warn = true;
 log.config.debug = false;

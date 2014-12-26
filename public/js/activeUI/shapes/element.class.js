@@ -26,7 +26,7 @@ act.nodes = {
 };
 act.getActiveNode = function() {
   var activeObj = canvas.getActiveObject();
-  if(!activeObj){
+  if (!activeObj) {
     return null;
   }
   return activeObj.get('parentEle');
@@ -61,7 +61,15 @@ act.Node = fabric.util.createClass({
     this.targetLine = {}; //以其为终点
     this._id = act.guid();
     options && this.setOptions(options);
+    this.setType(); //定义type为svg或image.
     options.url && this._loadPic(); //加载图片对象.
+  },
+  setType: function() {
+    var type = 'svg';
+    if (!this.url.endsWith('svg')) {
+      type = 'image';
+    }
+    this.type = type;
   },
   setOptions: function(options) {
     for (var prop in options) {
@@ -281,7 +289,9 @@ act.Node = fabric.util.createClass({
 
     return this;
   },
-  toString: function() {}
+  toString: function() {
+    return ['Node', '_id:' + this._id, 'label:' + this.label].join(',');
+  }
 })
 
 /**

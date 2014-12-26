@@ -149,6 +149,34 @@ $(function() {
       }
       activeObj.get('parentEle').remove();
     },
+    reserveData: function() {
+      var cid = act.getActiveNode()._id;
+      console.log(cid)
+      $.get("/demo/appendChildren", {
+          cid: cid
+        },
+        function(data, status) {
+          var node = act.nodes.get(data.cid);
+          console.log(node)
+          var nodes2Add = [];
+          for (var i = 0; i < data.children.length; i++) {
+            var child = data.children[i];
+            var operator = act.config.getByType(child.type);
+            if (!operator) {
+              log.error('存在错误数据:' + JSON.stringify(child));
+              return;
+            }
+            var op = extend(operator, child);
+            nodes2Add.push(op); //只缺少x,y坐标的待添加节点的配置信息数组
+            act.addNode({
+              left: 150,
+              top: 20,
+              url: op.img,
+              label: op.title
+            });
+          }
+        });
+    }
 
   };
   act.rc = rightClick;

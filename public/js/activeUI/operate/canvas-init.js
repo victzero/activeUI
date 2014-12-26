@@ -24,17 +24,12 @@ $(function() {
       return;
     }
     log.debug('add node to the cavnas[ title:' + obj.title + ',img: ' + obj.img + ']');
-    var type = 'svg';
-    if (!obj.img.endsWith('svg')) {
-      type = 'image';
-    }
 
     //获得到拖进来的对象,来组织url和label以及id(??)
     act.addNode({
       left: p.x,
       top: p.y,
       url: obj.img,
-      type: type,
       label: obj.title
     });
 
