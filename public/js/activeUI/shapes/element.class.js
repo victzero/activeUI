@@ -369,7 +369,8 @@ act.addNodeAround = function(node, aroundArr) {
       left: center.x + r * Math.cos(angle * i),
       top: center.y + r * Math.sin(angle * i),
       url: ar.img,
-      label: ar.title
+      label: ar.title,
+      srcType: ar.type, //TODO.
     });
     new act.Cline().createLink({
       start: node,
