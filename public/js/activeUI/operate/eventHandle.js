@@ -149,6 +149,11 @@ $(function() {
   }
 
   var rightClick = {
+    displayMenu: displayMenu,
+    toggleLock: function() {
+      var activeNode = act.getActiveNode();
+      activeNode.toggleLock();
+    },
     deleteNode: function() {
       var activeObj = canvas.getActiveObject();
       if (!activeObj) {

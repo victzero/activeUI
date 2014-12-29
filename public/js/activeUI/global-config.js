@@ -12,7 +12,12 @@ var aconfig = {
       'title': '人物101',
       'img': '../images/51.svg',
       'rcArr': [{
-        title: '删除',
+        title: '锁定|解锁',
+        onclick: function() {
+          act.rc.toggleLock();
+        }
+      }, {
+        title: '删除元素',
         onclick: function() {
           act.rc.deleteNode();
         }

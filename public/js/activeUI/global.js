@@ -123,6 +123,8 @@ app.directive('draggable', function() {
     var el = element[0];
     el.draggable = true;
     el.addEventListener('dragstart', function(e) {
+      act.rc.displayMenu();
+
       e.dataTransfer.effectAllowed = 'move';
       var $this = $(this);
       var pindex = $this.data('pindex');

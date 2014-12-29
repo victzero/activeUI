@@ -2,6 +2,11 @@ var rightClickCtrl = ['$scope', function($scope) {
   $scope.rcArr = [];
   $scope.canvas = canvas;
 
+  $scope.menuClick = function(callback){
+    act.rc.displayMenu();
+    callback && callback();
+  }
+
   angular.element(document).ready(function() {
     addAccessors($scope);
     watchCanvas($scope);
