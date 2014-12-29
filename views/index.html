@@ -31,6 +31,7 @@
     <script type="text/javascript" src="../js/activeUI/operate/eventHandle.js"></script>
     <!--angular相关,主要负责canvas之外的dom操作,以及对外提供的接口 -->
     <script type="text/javascript" src="../js/activeUI/operate/operateCtrl.js"></script>
+    <script type="text/javascript" src="../js/activeUI/operate/rightClickCtrl.js"></script>
   </head>
   <body>
     <div class="container-fluid">
@@ -64,13 +65,9 @@
         </div>
       </div>
     </div>
-    <div id="amenu" class="open amenu">
+    <div id="amenu" class="open amenu" ng-controller="rightClickCtrl">
       <ul class="dropdown-menu">
-        <li><a href="javascript:act.rc.deleteNode()">删除</a></li>
-        <li><a href="javascript:act.rc.reserveData();">获取数据</a></li>
-        <li><a href="javascript:(0);">##</a></li>
-        <li><a href="javascript:(0);">##</a></li>
-        <li><a href="javascript:(0);">##</a></li>
+        <li><a href="javascript:(0);" ng-click="item.onclick()" ng-repeat="item in rcArr">{{item.title}}</a></li>
       </ul>
     </div>
   </body>

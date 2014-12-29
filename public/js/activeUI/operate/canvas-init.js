@@ -30,7 +30,9 @@ $(function() {
       left: p.x,
       top: p.y,
       url: obj.img,
-      label: obj.title
+      label: obj.title,
+      srcType: obj.type,
+      rcArr: obj.rcArr,
     });
 
     act.stopEvent(ev);

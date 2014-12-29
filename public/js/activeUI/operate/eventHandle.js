@@ -116,6 +116,13 @@ $(function() {
       act.stopEvent(e);
       return;
     }
+
+    //触发右键事件.以便angular内部对改时间进行处理.
+    var pe = target.get('parentEle');
+    act.canvas.fire('canvasRightClick', {
+      target: pe
+    });
+
     canvas.setActiveObject(target);
     var maxWidth = document.documentElement.clientWidth - amenu.offsetWidth;
     var maxHeight = document.documentElement.clientHeight - amenu.offsetHeight;
@@ -168,7 +175,7 @@ $(function() {
             var op = extend(operator, child);
             nodes2Add.push(op); //只缺少x,y坐标的待添加节点的配置信息数组
           }
-          //在指定node周围进行布局.
+          //在指定node周围进行星形布局.
           act.addNodeAround(node, nodes2Add);
         });
     }
