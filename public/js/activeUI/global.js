@@ -4,8 +4,23 @@
  * @type {[type]}
  */
 var app = angular.module('activeUI', []); // ng-app
-var act = act || (act = {}),
-  extend = fabric.util.object.extend;
+var act = act || (act = {});
+
+act.util = act.util || (act.util = {});
+act.util = {
+  extend: function(destination, source, needCopy) {
+    needCopy && (destination = JSON.parse(JSON.stringify(destination)));
+    for (var property in source) {
+      destination[property] = source[property];
+    }
+    return destination;
+  },
+  clone: function(object) {
+    return extend({}, object);
+  }
+};
+
+extend = act.util.extend;
 
 /**
  * angular全局配置

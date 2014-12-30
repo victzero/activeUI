@@ -177,7 +177,7 @@ $(function() {
               log.error('存在错误数据:' + JSON.stringify(child));
               return;
             }
-            var op = extend(operator, child);
+            var op = act.util.extend(operator, child, true);
             nodes2Add.push(op); //只缺少x,y坐标的待添加节点的配置信息数组
           }
           //在指定node周围进行星形布局.
