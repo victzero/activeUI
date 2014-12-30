@@ -2,7 +2,7 @@ var rightClickCtrl = ['$scope', function($scope) {
   $scope.rcArr = [];
   $scope.canvas = canvas;
 
-  $scope.menuClick = function(callback){
+  $scope.menuClick = function(callback) {
     act.rc.displayMenu();
     callback && callback();
   }
@@ -30,7 +30,6 @@ function watchCanvas($scope) {
 }
 
 app.controller('rightClickCtrl', rightClickCtrl);
-
 
 // angular.element(document).ready(function() {
 //   var $injector = angular.bootstrap(document, ['myApp']);

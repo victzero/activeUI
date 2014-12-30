@@ -15,9 +15,17 @@
         border:1px solid #ccc;
         list-style:none;
     }
+    .form-group .help-block {
+  display: none;
+}
+
+.form-group.has-error .help-block {
+  display: block;
+}
     </style>
     <script type="text/javascript" src="../js/jquery-1.11.1.js"></script>
-    <script type="text/javascript" src="../js/angular.js"></script>
+    <script type="text/javascript" src="../js/angular-1.3.8/angular.js"></script>
+    <script type="text/javascript" src="../js/angular-1.3.8/showErrors.js"></script>
     <script type="text/javascript" src="../js/lib/bootstrap3.3.0/js/bootstrap.js"></script>
     <script type="text/javascript" src="../js/fabric.js/dist/fabric.js"></script>
     <!--全局 -->
@@ -70,5 +78,72 @@
         <li><a href="javascript:(0);" ng-click="menuClick(item.onclick);" ng-repeat="item in rcArr">{{item.title}}</a></li>
       </ul>
     </div>
+    <!-- 按钮触发模态框 -->
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+       开始演示模态框
+    </button>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+       aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content" ng-controller="nodeEditController">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+             修改节点名称
+            </h4>
+          </div>
+            <div class="modal-body">
+              <form name="nodeNameForm" class="form-horizontal" role="form" novalidate>
+                <div class="form-group" show-errors>
+                  <label class="col-sm-2 control-label">名称</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="name" ng-model="node.name" required>
+                      <small class="help-block" ng-show="nodeNameForm.name.$error.required">节点名称不能为空</small>
+                    </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">
+                   取消
+              </button>
+              <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="nodeNameForm.$invalid">
+                保存
+              </button>
+              <button type="button" class="btn btn-primary" ng-click="reset()" >
+                保存
+              </button>
+            </div>
+          </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script>
+       $(function() {
+         $('#myModal').modal('hide')
+         $('#myModal').on('hide.bs.modal', function() {
+           alert('嘿，我听说您喜欢模态框...');
+         })
+       });
+app.controller('nodeEditController', function($scope) {
+  $scope.save = function() {
+    $scope.$broadcast('show-errors-check-validity');
+
+    if ($scope.nodeNameForm.$valid) {
+      alert('User saved');
+      $scope.reset();
+    }
+  };
+
+  $scope.reset = function() {
+    $scope.$broadcast('show-errors-reset');
+    $scope.node = { name: '' };
+  }
+});
+
+    </script>
   </body>
 </html>

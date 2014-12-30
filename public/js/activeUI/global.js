@@ -3,7 +3,7 @@
  * 声明app为angular主模块.
  * @type {[type]}
  */
-var app = angular.module('activeUI', []); // ng-app
+var app = angular.module('activeUI', ['ui.bootstrap.showErrors']); // ng-app
 var act = act || (act = {});
 
 act.util = act.util || (act.util = {});
@@ -123,8 +123,8 @@ act.config = {
   },
   lineOptions: {
     fill: 'black',
-    stroke: 'red',
-    strokeWidth: 3,
+    stroke: '#444', //此处为默认颜色.TODO:绘制线条时可定制颜色,
+    strokeWidth: 2,
     selectable: false
   },
 }
