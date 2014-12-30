@@ -32,7 +32,7 @@ $(function() {
       url: obj.img,
       label: obj.title,
       srcType: obj.type,
-      rcArr: obj.rcArr,
+      // rcArr: obj.rcArr,
     });
 
     act.stopEvent(ev);

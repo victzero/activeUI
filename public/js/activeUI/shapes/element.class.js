@@ -41,6 +41,7 @@ act.getActiveNode = function() {
  */
 act.Node = fabric.util.createClass({
   type: 'svg', //svg || image
+  srcType: null,
   _id: null,
   top: 0,
   left: 0,
@@ -181,7 +182,7 @@ act.Node = fabric.util.createClass({
     this._updateLines();
   },
   _updateLines: function() {
-    //TODO:更新相关连线.
+    // 更新相关连线.
     // console.log('_updateLines,src:' + this.srcLine + ',target:' + this.targetLine)
     for (var key in this.srcLine) {
       var line = this.srcLine[key];
@@ -325,11 +326,13 @@ act.Node = fabric.util.createClass({
   get: function(property) {
     return this[property];
   },
-  //TODO:
   getRcArr: function() {
     var srcType = this.srcType;
     if (srcType) {
-
+      var operator = act.config.getByType(srcType);
+      if (operator) {
+        return operator.rcArr;
+      }
     }
   }
 })
@@ -370,7 +373,7 @@ act.addNodeAround = function(node, aroundArr) {
       top: center.y + r * Math.sin(angle * i),
       url: ar.img,
       label: ar.title,
-      srcType: ar.type, //TODO.
+      srcType: ar.type,
     });
     new act.Cline().createLink({
       start: node,

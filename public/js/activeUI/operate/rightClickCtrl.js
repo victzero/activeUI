@@ -21,7 +21,7 @@ function addAccessors($scope) {
 function watchCanvas($scope) {
 
   function updateScope(op) {
-    $scope.rcArr = op.target.rcArr;
+    $scope.rcArr = op.target.getRcArr();
     $scope.$$phase || $scope.$digest();
     // act.canvas.renderAll();
   }
