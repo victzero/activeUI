@@ -119,6 +119,9 @@ $(function() {
 
     //触发右键事件.以便angular内部对改时间进行处理.
     var pe = target.get('parentEle');
+    if (!pe) { // 不是node节点.暂时不支持右键.
+      return;
+    }
     act.canvas.fire('canvasRightClick', {
       target: pe
     });
