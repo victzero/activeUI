@@ -27,9 +27,24 @@ var aconfig = {
           act.rc.nodeEdit();
         }
       }, {
-        title: '获取数据',
+        title: '红色数据',
         click: function() {
-          act.rc.reserveData();
+          act.rc.reserveData({
+            url: "/demo/appendChildren",
+            lineOptions: {
+              stroke: '#A02536',
+            }
+          });
+        }
+      }, {
+        title: '蓝色数据',
+        click: function() {
+          act.rc.reserveData({
+            url: "/demo/appendChildren",
+            lineOptions: {
+              stroke: '#0076D8',
+            }
+          });
         }
       }],
       dblclick: function(op) {
@@ -39,21 +54,23 @@ var aconfig = {
     }, {
       'type': 102,
       'title': '人物102',
-      'img': '../images/a.jpg',
+      'img': '../images/51.JPG',
       'rcArr': [{
         title: '删除元素',
         click: function() {
-
+          act.rc.deleteNode();
         }
       }, {
         title: '编辑名称',
         click: function() {
-
+          act.rc.nodeEdit();
         }
       }, {
         title: '获取数据',
         click: function() {
-
+          act.rc.reserveData({
+            url: "/demo/appendChildren",
+          });
         }
       }]
     }, {

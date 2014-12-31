@@ -183,27 +183,28 @@ $(function() {
     nodeEdit: function() {
       act.canvas.fire('nodeEditShow', {});
     },
-    reserveData: function() {
-      var cid = act.getActiveNode()._id;
-      log.debug(cid)
-      $.get("/demo/appendChildren", {
-          cid: cid
-        },
+    reserveData: function(op) {
+      var activeNode = act.getActiveNode();
+      var sendData = {
+        cid: activeNode._id
+      };
+      op.data && (sendData = act.util.extend(sendData, op.data));
+      $.get(op.url, sendData,
         function(data, status) {
-          var node = act.nodes.get(data.cid);
+          var node = act.nodes.get(sendData.cid);
           var nodes2Add = [];
           for (var i = 0; i < data.children.length; i++) {
             var child = data.children[i];
             var operator = act.config.getByType(child.type);
             if (!operator) {
               log.error('存在错误数据:' + JSON.stringify(child));
-              return;
+              continue;
             }
-            var op = act.util.extend(operator, child, true);
-            nodes2Add.push(op); //只缺少x,y坐标的待添加节点的配置信息数组
+            var ope = act.util.extend(operator, child, true);
+            nodes2Add.push(ope); //只缺少x,y坐标的待添加节点的配置信息数组
           }
           //在指定node周围进行星形布局.
-          act.addNodeAround(node, nodes2Add);
+          act.addNodeAround(node, nodes2Add, op.lineOptions);
         });
     }
 

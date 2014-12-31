@@ -357,7 +357,7 @@ act.addNode = function(options) {
  * @param {[type]} node [description]
  * @param {[type]} around 只缺少x,y坐标的待添加节点的配置信息数组
  */
-act.addNodeAround = function(node, aroundArr) {
+act.addNodeAround = function(node, aroundArr, lineOptions) {
   var srcLength = Object.keys(node.srcLine).length;
   var center = {
     x: node.left,
@@ -379,7 +379,7 @@ act.addNodeAround = function(node, aroundArr) {
       label: ar.title,
       srcType: ar.type,
     });
-    new act.Cline().createLink({
+    new act.Cline(null, lineOptions).createLink({
       start: node,
       end: end
     });
@@ -393,10 +393,9 @@ act.Cline = fabric.util.createClass({
   fromNode: null,
   toNode: null,
   isBack: false,
-  defOptions: act.config.lineOptions,
   initialize: function(points, options) {
     options || (options == {});
-    options = extend(this.defOptions, options);
+    options = act.util.extend(act.config.lineOptions, options, true);
     this._id = act.guid();
     this.line = new fabric.Line(points, options);
     this.line.set({
