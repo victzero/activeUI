@@ -24,7 +24,7 @@ var aconfig = {
       }, {
         title: '编辑名称',
         onclick: function() {
-
+          act.rc.nodeEdit();
         }
       }, {
         title: '获取数据',

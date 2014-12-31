@@ -16,12 +16,12 @@
         list-style:none;
     }
     .form-group .help-block {
-  display: none;
-}
+      display: none;
+    }
 
-.form-group.has-error .help-block {
-  display: block;
-}
+    .form-group.has-error .help-block {
+      display: block;
+    }
     </style>
     <script type="text/javascript" src="../js/jquery-1.11.1.js"></script>
     <script type="text/javascript" src="../js/angular-1.3.8/angular.js"></script>
@@ -40,6 +40,7 @@
     <!--angular相关,主要负责canvas之外的dom操作,以及对外提供的接口 -->
     <script type="text/javascript" src="../js/activeUI/operate/operateCtrl.js"></script>
     <script type="text/javascript" src="../js/activeUI/operate/rightClickCtrl.js"></script>
+    <script type="text/javascript" src="../js/activeUI/operate/nodeEditCtrl.js"></script>
   </head>
   <body>
     <div class="container-fluid">
@@ -78,16 +79,11 @@
         <li><a href="javascript:(0);" ng-click="menuClick(item.onclick);" ng-repeat="item in rcArr">{{item.title}}</a></li>
       </ul>
     </div>
-    <!-- 按钮触发模态框 -->
-    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#nodeEditModal">
-       开始演示模态框
-    </button>
-
-    <!-- 模态框（Modal） -->
+    <!-- 节点名称编辑框（Modal） -->
     <div class="modal fade" id="nodeEditModal" tabindex="-1" role="dialog"
        aria-labelledby="nodeEditModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content" ng-controller="nodeEditController">
+        <div class="modal-content" ng-controller="nodeEditCtrl">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"
                aria-hidden="true">×
@@ -122,27 +118,6 @@
        </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     <script>
-       $(function() {
-         $('#nodeEditModal').modal('hide');
-         $('#nodeEditModal').on('hide.bs.modal', function() {
-           alert('嘿，我听说您喜欢模态框...');
-         })
-       });
-app.controller('nodeEditController', function($scope) {
-  $scope.save = function() {
-    $scope.$broadcast('show-errors-check-validity');
-
-    if ($scope.nodeEditForm.$valid) {
-      alert($scope.node);
-      $scope.reset();
-    }
-  };
-
-  $scope.reset = function() {
-    $scope.$broadcast('show-errors-reset');
-    $scope.node = { name: '' };
-  }
-});
 
     </script>
   </body>

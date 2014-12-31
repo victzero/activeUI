@@ -11,22 +11,23 @@ var rightClickCtrl = ['$scope', function($scope) {
     addAccessors($scope);
     watchCanvas($scope);
   });
+
+  function watchCanvas($scope) {
+
+    function updateScope(op) {
+      $scope.rcArr = op.target.getRcArr();
+      $scope.$$phase || $scope.$digest();
+      // act.canvas.renderAll();
+    }
+
+    console.log('add listener on canvasRightClick')
+    act.canvas.on('canvasRightClick', updateScope)
+  }
 }];
 
 function addAccessors($scope) {
 
   $scope.rcArr = [];
-}
-
-function watchCanvas($scope) {
-
-  function updateScope(op) {
-    $scope.rcArr = op.target.getRcArr();
-    $scope.$$phase || $scope.$digest();
-    // act.canvas.renderAll();
-  }
-
-  act.canvas.on('canvasRightClick', updateScope)
 }
 
 app.controller('rightClickCtrl', rightClickCtrl);

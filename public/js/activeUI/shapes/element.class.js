@@ -280,6 +280,11 @@ act.Node = fabric.util.createClass({
     canvas.remove(this.group);
     //释放该节点.
   },
+  setLabel: function(val) {
+    this.label = val;
+    this.text.set('text', val).setCoords();
+    act.canvas.renderAll();
+  },
   set: function(key, value) {
     if (typeof key === 'object') {
       this._setObject(key);

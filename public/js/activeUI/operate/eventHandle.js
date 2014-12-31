@@ -164,6 +164,10 @@ $(function() {
       }
       activeObj.get('parentEle').remove();
     },
+    nodeEdit: function() {
+      act.canvas.fire('nodeEditShow', {
+      });
+    },
     reserveData: function() {
       var cid = act.getActiveNode()._id;
       log.debug(cid)
