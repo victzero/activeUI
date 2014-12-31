@@ -79,30 +79,30 @@
       </ul>
     </div>
     <!-- 按钮触发模态框 -->
-    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#nodeEditModal">
        开始演示模态框
     </button>
 
     <!-- 模态框（Modal） -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-       aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="nodeEditModal" tabindex="-1" role="dialog"
+       aria-labelledby="nodeEditModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content" ng-controller="nodeEditController">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"
                aria-hidden="true">×
             </button>
-            <h4 class="modal-title" id="myModalLabel">
+            <h4 class="modal-title" id="nodeEditModalLabel">
              修改节点名称
             </h4>
           </div>
             <div class="modal-body">
-              <form name="nodeNameForm" class="form-horizontal" role="form" novalidate>
+              <form name="nodeEditForm" class="form-horizontal" role="form" novalidate>
                 <div class="form-group" show-errors>
                   <label class="col-sm-2 control-label">名称</label>
                     <div class="col-sm-10">
                       <input type="text" class="form-control" name="name" ng-model="node.name" required>
-                      <small class="help-block" ng-show="nodeNameForm.name.$error.required">节点名称不能为空</small>
+                      <small class="help-block" ng-show="nodeEditForm.name.$error.required">节点名称不能为空</small>
                     </div>
                 </div>
               </form>
@@ -111,10 +111,10 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">
                    取消
               </button>
-              <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="nodeNameForm.$invalid">
-                保存
-              </button>
               <button type="button" class="btn btn-primary" ng-click="reset()" >
+                重置
+              </button>
+              <button type="button" class="btn btn-success" ng-click="save()" ng-disabled="nodeEditForm.$invalid">
                 保存
               </button>
             </div>
@@ -123,8 +123,8 @@
     </div><!-- /.modal -->
     <script>
        $(function() {
-         $('#myModal').modal('hide')
-         $('#myModal').on('hide.bs.modal', function() {
+         $('#nodeEditModal').modal('hide');
+         $('#nodeEditModal').on('hide.bs.modal', function() {
            alert('嘿，我听说您喜欢模态框...');
          })
        });
@@ -132,8 +132,8 @@ app.controller('nodeEditController', function($scope) {
   $scope.save = function() {
     $scope.$broadcast('show-errors-check-validity');
 
-    if ($scope.nodeNameForm.$valid) {
-      alert('User saved');
+    if ($scope.nodeEditForm.$valid) {
+      alert($scope.node);
       $scope.reset();
     }
   };
