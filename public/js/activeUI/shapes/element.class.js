@@ -17,8 +17,10 @@ act.nodes = {
     if (last) {
       last.setActive(false);
     }
-    node.setActive(true);
-    act.nodes.lastActive = node;
+    if (node) {
+      node.setActive(true);
+      act.nodes.lastActive = node;
+    }
   },
   showAll: function() {
     var objs = this.nodeObjs;
@@ -124,7 +126,7 @@ act.Node = fabric.util.createClass({
       // this.group.lockMovementY = false;
       this.unlock();
     }
-    if(this.active){
+    if (this.active) {
       act.nodes.setActiveNode(this);
     }
   },
