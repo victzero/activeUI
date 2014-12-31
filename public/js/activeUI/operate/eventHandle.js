@@ -104,6 +104,20 @@ $(function() {
     }
   });
 
+  /**
+   * 处理双击事件.
+   * @param  {[type]} ev) {             } [description]
+   * @return {[type]}     [description]
+   */
+  fabric.util.addListener(canvas.upperCanvasEl, 'dblclick', function(ev) {
+    var activeNode = act.getActiveNode();
+    if (!activeNode) {
+      return;
+    }
+    var ope = activeNode.getOperator();
+    ope.dblclick && ope.dblclick(activeNode);
+  });
+
   var amenu = document.getElementById('amenu');
   //监听右击事件,弹出菜单.
   var rightClickShowMenu = function(e) {
@@ -165,8 +179,7 @@ $(function() {
       activeObj.get('parentEle').remove();
     },
     nodeEdit: function() {
-      act.canvas.fire('nodeEditShow', {
-      });
+      act.canvas.fire('nodeEditShow', {});
     },
     reserveData: function() {
       var cid = act.getActiveNode()._id;

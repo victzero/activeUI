@@ -20,7 +20,7 @@ var rightClickCtrl = ['$scope', function($scope) {
       // act.canvas.renderAll();
     }
 
-    console.log('add listener on canvasRightClick')
+    // console.log('add listener on canvasRightClick')
     act.canvas.on('canvasRightClick', updateScope)
   }
 }];

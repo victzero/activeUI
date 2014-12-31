@@ -331,14 +331,13 @@ act.Node = fabric.util.createClass({
   get: function(property) {
     return this[property];
   },
+  getOperator: function() {
+    var operator = act.config.getByType(this.srcType);
+    return operator;
+  },
   getRcArr: function() {
-    var srcType = this.srcType;
-    if (srcType) {
-      var operator = act.config.getByType(srcType);
-      if (operator) {
-        return operator.rcArr;
-      }
-    }
+    var operator = this.getOperator();
+    return operator.rcArr;
   }
 })
 

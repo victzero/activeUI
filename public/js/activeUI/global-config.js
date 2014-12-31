@@ -13,42 +13,46 @@ var aconfig = {
       'img': '../images/51.svg',
       'rcArr': [{
         title: '锁定|解锁',
-        onclick: function() {
+        click: function() {
           act.rc.toggleLock();
         }
       }, {
         title: '删除元素',
-        onclick: function() {
+        click: function() {
           act.rc.deleteNode();
         }
       }, {
         title: '编辑名称',
-        onclick: function() {
+        click: function() {
           act.rc.nodeEdit();
         }
       }, {
         title: '获取数据',
-        onclick: function() {
+        click: function() {
           act.rc.reserveData();
         }
-      }]
+      }],
+      dblclick: function(node) {
+        console.log('您进行了双击.' + node.label)
+        act.rc.nodeEdit();
+      }
     }, {
       'type': 102,
       'title': '人物102',
       'img': '../images/a.jpg',
       'rcArr': [{
         title: '删除元素',
-        onclick: function() {
+        click: function() {
 
         }
       }, {
         title: '编辑名称',
-        onclick: function() {
+        click: function() {
 
         }
       }, {
         title: '获取数据',
-        onclick: function() {
+        click: function() {
 
         }
       }]
@@ -58,7 +62,7 @@ var aconfig = {
       'img': '../images/51.svg',
       rcArr: [{
         title: '删除元素',
-        onclick: function() {
+        click: function() {
           act.rc.deleteNode();
         }
       }]
@@ -71,7 +75,7 @@ var aconfig = {
       'img': '../images/a.jpg',
       rcArr: [{
         title: '删除元素',
-        onclick: function() {
+        click: function() {
           act.rc.deleteNode();
         }
       }]
@@ -81,7 +85,7 @@ var aconfig = {
       'img': '../images/51.svg',
       rcArr: [{
         title: '删除元素',
-        onclick: function() {
+        click: function() {
           act.rc.deleteNode();
         }
       }]
@@ -91,7 +95,7 @@ var aconfig = {
       'img': '../images/a.jpg',
       rcArr: [{
         title: '删除元素',
-        onclick: function() {
+        click: function() {
           act.rc.deleteNode();
         }
       }]
