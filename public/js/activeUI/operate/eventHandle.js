@@ -115,7 +115,9 @@ $(function() {
       return;
     }
     var ope = activeNode.getOperator();
-    ope.dblclick && ope.dblclick(activeNode);
+    ope.dblclick && ope.dblclick({
+      node: activeNode
+    });
   });
 
   var amenu = document.getElementById('amenu');

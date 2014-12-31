@@ -32,8 +32,8 @@ var aconfig = {
           act.rc.reserveData();
         }
       }],
-      dblclick: function(node) {
-        console.log('您进行了双击.' + node.label)
+      dblclick: function(op) {
+        // console.log('您进行了双击.' + op.node.label)
         act.rc.nodeEdit();
       }
     }, {
