@@ -1,4 +1,5 @@
 /** col-ac只能作为叶子节点,它下面的row没有定义. */
+
 .col-ac, .col-ac-1, .col-ac-2, .col-ac-3, .col-ac-4, .col-ac-5, .col-ac-6, .col-ac-7, .col-ac-8, .col-ac-9, .col-ac-10, .col-ac-11, .col-ac-12 {
     position: relative;
     min-height: 1px;
@@ -6,7 +7,6 @@
     padding-left: 5px;
     float: left;
 }
-
 .col-ac-12 {
     width: 100%;
 }
@@ -46,17 +46,30 @@
 .width-100 {
     width: 100%;
 }
-
 /***页面特有***/
+
 .operate-container {
-  width: 190px;
+    width: 190px;
 }
 .operate-row {
-  text-align: center;
+    text-align: center;
 }
-
-
+.amenu {
+    position: absolute;
+    display: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    list-style: none;
+}
+.form-group .help-block {
+    display: none;
+}
+.form-group.has-error .help-block {
+    display: block;
+}
 /**TEMP**/
+
 canvas {
     border: #eee 1px solid;
     width: 100%;
