@@ -26,12 +26,13 @@ $(function() {
     log.debug('add node to the cavnas[ title:' + obj.title + ',img: ' + obj.img + ']');
 
     //获得到拖进来的对象,来组织url和label以及id(??)
-    act.addNode({
+    var node = act.addNode({
       left: p.x,
       top: p.y,
       url: obj.img,
       label: obj.title,
       srcType: obj.type,
+      active: true,
       // rcArr: obj.rcArr,
     });
 

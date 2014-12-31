@@ -12,6 +12,14 @@ act.nodes = {
   remove: function(node) {
     delete this.nodeObjs[node._id];
   },
+  setActiveNode: function(node) {
+    var last = act.nodes.lastActive;
+    if (last) {
+      last.setActive(false);
+    }
+    node.setActive(true);
+    act.nodes.lastActive = node;
+  },
   showAll: function() {
     var objs = this.nodeObjs;
     var i = 0;
@@ -115,6 +123,9 @@ act.Node = fabric.util.createClass({
       // this.group.lockMovementX = false;
       // this.group.lockMovementY = false;
       this.unlock();
+    }
+    if(this.active){
+      act.nodes.setActiveNode(this);
     }
   },
   _initPic: function() {
@@ -253,7 +264,7 @@ act.Node = fabric.util.createClass({
     this.locked = true;
     this.group.lockMovementX = true;
     this.group.lockMovementY = true;
-    this.group.setFill('#A10000');
+    this.group.set('fontStyle', 'italic');
     // this.group.stroke = '#aaf';
     // this.group.strokeWidth = 5;
     // this.group.setCoords();
@@ -266,7 +277,17 @@ act.Node = fabric.util.createClass({
     // this.group.stroke = '#aaa';
     // this.group.strokeWidth = 5;
     // this.group.setCoords();
-    this.group.setFill(this.textOptions.fill);
+    this.group.set('fontStyle', '');
+    act.canvas.renderAll();
+  },
+  setActive: function(status) {
+    if (status) {
+      this.active = true;
+      this.group.setFill('#00E23F');
+    } else {
+      this.active = false;
+      this.group.setFill(this.textOptions.fill);
+    }
     act.canvas.renderAll();
   },
   remove: function() { //删除该节点,即删除该节点所有相关的连线.再删除本身.

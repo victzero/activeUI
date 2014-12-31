@@ -120,6 +120,12 @@ $(function() {
     });
   });
 
+  act.canvas.on('object:selected', function(op) {
+    var anode = act.getActiveNode();
+    // anode.setActive(true);
+    act.nodes.setActiveNode(anode);
+  });
+
   var amenu = document.getElementById('amenu');
   //监听右击事件,弹出菜单.
   var rightClickShowMenu = function(e) {
