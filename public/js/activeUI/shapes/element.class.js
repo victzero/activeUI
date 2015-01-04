@@ -41,14 +41,32 @@ act.getActiveNode = function() {
   }
   return activeObj.get('parentEle');
 };
-/**
- * 此类为框架操作对象.由于拖拽并新增节点时,需要同时添加多个fabric对象,所以使用该类进行统一操作.
- * 新增的对象包括如下信息:
- * type: 对象类型image||svg,可选,默认为svg
- * url: url地址
- * label: 描述信息,可以使用\n进行换行.
- * top,left:安放的坐标位置
- */
+act.svgCache = {
+    map: {},
+    put: function(url, obj) {
+      this.map[url] = obj;
+    },
+    exist: function(url) {
+      return typeof this.map[url] != 'undefined';
+    },
+    get: function(url, cb) {
+      if (!this.exist(url)) {
+        return;
+      }
+      var sobj = this.map[url].toObject();
+      fabric.PathGroup.fromObject(sobj, function(pg) {
+        cb && cb(pg);
+      });
+    },
+  }
+  /**
+   * 此类为框架操作对象.由于拖拽并新增节点时,需要同时添加多个fabric对象,所以使用该类进行统一操作.
+   * 新增的对象包括如下信息:
+   * type: 对象类型image||svg,可选,默认为svg
+   * url: url地址
+   * label: 描述信息,可以使用\n进行换行.
+   * top,left:安放的坐标位置
+   */
 act.Node = fabric.util.createClass({
   type: 'svg', //svg || image
   srcType: null,
@@ -92,16 +110,30 @@ act.Node = fabric.util.createClass({
     var _this = this;
     var _loadSvgCallback = function(objects, options) {
       svg = fabric.util.groupSVGElements(objects, options);
+      var sobj = svg.toObject();
+      fabric.PathGroup.fromObject(sobj, function(pg) {
+        act.svgCache.put(_this.url, pg);
+      })
       _this.loadedObject = svg;
       _this._afterLoad();
     };
+    var _loadSvgFromCache = function(pathGroup) {
+      _this.loadedObject = pathGroup;
+      _this._afterLoad();
+    }
     var _loadImageCallback = function(image) {
       _this.loadedObject = image;
       _this._afterLoad();
     };
 
     if (this.type == 'svg') {
-      fabric.loadSVGFromURL(this.url, _loadSvgCallback);
+      if (act.svgCache.exist(this.url)) {
+        act.svgCache.get(this.url, function(pg) {
+          pg && _loadSvgFromCache(pg);
+        });
+      } else {
+        fabric.loadSVGFromURL(this.url, _loadSvgCallback);
+      }
     } else
     if (this.type == 'image') {
       fabric.Image.fromURL(this.url, _loadImageCallback);
