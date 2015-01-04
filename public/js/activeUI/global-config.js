@@ -47,6 +47,17 @@ var aconfig = {
             }
           });
         }
+      }, {
+        title: '多条数据',
+        click: function() {
+          act.rc.reserveData({
+            url: "/demo/appendChildrenSvg",
+            lineOptions: {
+              stroke: '#0076D8',
+              c_radius: 220
+            }
+          });
+        }
       }],
       dblclick: function(op) {
         // console.log('您进行了双击.' + op.node.label)
@@ -71,6 +82,27 @@ var aconfig = {
         click: function() {
           act.rc.reserveData({
             url: "/demo/appendChildren",
+          });
+        }
+      }, {
+        title: '红色数据',
+        click: function() {
+          act.rc.reserveData({
+            url: "/demo/appendChildrenImg",
+            lineOptions: {
+              stroke: '#A02536',
+              c_radius: 180
+            }
+          });
+        }
+      }, {
+        title: '蓝色数据',
+        click: function() {
+          act.rc.reserveData({
+            url: "/demo/appendChildrenImg",
+            lineOptions: {
+              stroke: '#0076D8',
+            }
           });
         }
       }]
