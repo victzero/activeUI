@@ -166,6 +166,75 @@ act.Node = fabric.util.createClass({
   _getLabelTop: function() {
     return this.top + this.height / 2 + this.textOptions.fontSize / 2
   },
+  update: function(op) {
+    // this.left = op.x;
+    // this.top = op.y;
+    // this.group.set({
+    //   left: this.left,
+    //   top: this.top
+    // }).setCoords();
+
+    var _this = this;
+    fabric.util.animate({
+      startValue: this.left,
+      endValue: op.x,
+      // byValue: options.by,
+      easing: fabric.util.ease['easeOutQuad'],
+      duration: 1000,
+      // abort: options.abort && function() {
+      //   return options.abort.call(_this);
+      // },
+      onChange: function(value) {
+        _this.left = value;
+        _this.group.set({
+          left: _this.left,
+          top: _this.top
+        }).setCoords();
+        _this._updateLines();
+      },
+      onComplete: function() {
+        // act.canvas.renderAll();
+      }
+    });
+
+    fabric.util.animate({
+      startValue: this.top,
+      endValue: op.y,
+      // byValue: options.by,
+      easing: fabric.util.ease['easeOutQuad'],
+      duration: 1000,
+      // abort: options.abort && function() {
+      //   return options.abort.call(_this);
+      // },
+      onChange: function(value) {
+        _this.top = value;
+        _this.group.set({
+          left: _this.left,
+          top: _this.top
+        }).setCoords();
+        _this._updateLines();
+      },
+      onComplete: function() {
+        // act.canvas.renderAll();
+      }
+    });
+
+    // this.group.animate({
+    //   left: this.left,
+    //   top: this.top
+    // }, {
+    //   duration: 1000,
+    //   onChange: function(value) {
+    //     console.log(value)
+    //     act.canvas.renderAll();
+    //   },
+    //   onComplete: function() {
+    //     // animateBtn.disabled = false;
+    //   },
+    //   easing: fabric.util.ease['easeOutQuad']
+    // });
+
+  },
   _updateNode: function(src, cp) {
     if (act.isConnectMode()) {
       return;
@@ -386,18 +455,30 @@ act.addNodeAround = function(node, aroundArr, lineOptions) {
     x: node.left,
     y: node.top
   };
-  if (srcLength && srcLength != 0) {
-    alert('暂时不支持在已有子节点的节点上追加节点.');
-    return;
-  }
+  // if (srcLength && srcLength != 0) {
+  //   alert('暂时不支持在已有子节点的节点上追加节点.');
+  //   return;
+  // }
   var nLength = aroundArr.length;
-  var angle = Math.PI * 2 / nLength; //两点之间的角度.
-  var r = act.config.radius || 120;
+  var angle = Math.PI * 2 / (nLength + srcLength); //两点之间的角度.
+  var r = (lineOptions && lineOptions.c_radius) || act.config.radius || 120;
+
+  var toNodeIndex = 0;
+  for (var key in node.srcLine) {
+    var line = node.srcLine[key];
+    var toNode = line.toNode; //找到已有的目标节点.
+    toNode.update({
+      x: center.x + r * Math.cos(angle * toNodeIndex),
+      y: center.y + r * Math.sin(angle * toNodeIndex),
+    }); //移动目标节点位置.
+    toNodeIndex++;
+  }
+
   for (var i = 0; i < nLength; i++) {
     var ar = aroundArr[i];
     var end = act.addNode({
-      left: center.x + r * Math.cos(angle * i),
-      top: center.y + r * Math.sin(angle * i),
+      left: center.x + r * Math.cos(angle * (i + srcLength)),
+      top: center.y + r * Math.sin(angle * (i + srcLength)),
       url: ar.img,
       label: ar.title,
       srcType: ar.type,

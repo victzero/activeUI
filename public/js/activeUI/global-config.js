@@ -33,6 +33,7 @@ var aconfig = {
             url: "/demo/appendChildren",
             lineOptions: {
               stroke: '#A02536',
+              c_radius: 180
             }
           });
         }
@@ -89,7 +90,7 @@ var aconfig = {
     objs: [{
       'type': 201,
       'title': '人物201',
-      'img': '../images/a.jpg',
+      'img': '../images/51.JPG',
       rcArr: [{
         title: '删除元素',
         click: function() {
@@ -109,7 +110,7 @@ var aconfig = {
     }, {
       'type': 203,
       'title': '人物203',
-      'img': '../images/a.jpg',
+      'img': '../images/51.JPG',
       rcArr: [{
         title: '删除元素',
         click: function() {
