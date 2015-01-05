@@ -199,8 +199,7 @@ act.Node = fabric.util.createClass({
     return this.top + this.height / 2 + this.textOptions.fontSize / 2
   },
   update: function(op) {
-    // this.left = op.x;
-    // this.top = op.y;
+
     // this.group.set({
     //   left: this.left,
     //   top: this.top
@@ -223,9 +222,10 @@ act.Node = fabric.util.createClass({
           top: _this.top
         }).setCoords();
         _this._updateLines();
+        act.canvas.renderAll();
       },
       onComplete: function() {
-        // act.canvas.renderAll();
+        act.canvas.renderAll();
       }
     });
 
@@ -245,19 +245,21 @@ act.Node = fabric.util.createClass({
           top: _this.top
         }).setCoords();
         _this._updateLines();
+        act.canvas.renderAll();
       },
       onComplete: function() {
-        // act.canvas.renderAll();
+        act.canvas.renderAll();
       }
     });
 
+    // this.left = op.x;
+    // this.top = op.y;
     // this.group.animate({
     //   left: this.left,
     //   top: this.top
     // }, {
     //   duration: 1000,
     //   onChange: function(value) {
-    //     console.log(value)
     //     act.canvas.renderAll();
     //   },
     //   onComplete: function() {
@@ -563,6 +565,7 @@ act.Cline = fabric.util.createClass({
         'y2': target.top,
       });
     }
+    canvas.renderAll();
   },
   update: function(op) {
     this.line.set(op);
@@ -570,7 +573,7 @@ act.Cline = fabric.util.createClass({
       canvas.sendToBack(this.line);
       this.isBack = true;
     }
-    canvas.renderAll();
+    // canvas.renderAll();
   },
   remove: function() { //把线从节点的关联关系中删除.
     this.fromNode && this.fromNode.deleteSrcLineById(this._id); //存在from时
