@@ -199,58 +199,60 @@ act.Node = fabric.util.createClass({
     return this.top + this.height / 2 + this.textOptions.fontSize / 2
   },
   update: function(op) {
+    this.left = op.x;
+    this.top = op.y;
+    this.group.set({
+      left: this.left,
+      top: this.top
+    }).setCoords();
+    this._updateLines();
 
-    // this.group.set({
-    //   left: this.left,
-    //   top: this.top
-    // }).setCoords();
+    // var _this = this;
+    // fabric.util.animate({
+    //   startValue: this.left,
+    //   endValue: op.x,
+    //   // byValue: options.by,
+    //   easing: fabric.util.ease['easeOutQuad'],
+    //   duration: 1000,
+    //   // abort: options.abort && function() {
+    //   //   return options.abort.call(_this);
+    //   // },
+    //   onChange: function(value) {
+    //     _this.left = value;
+    //     _this.group.set({
+    //       left: _this.left,
+    //       top: _this.top
+    //     }).setCoords();
+    //     _this._updateLines();
+    //     act.canvas.renderAll();
+    //   },
+    //   onComplete: function() {
+    //     act.canvas.renderAll();
+    //   }
+    // });
 
-    var _this = this;
-    fabric.util.animate({
-      startValue: this.left,
-      endValue: op.x,
-      // byValue: options.by,
-      easing: fabric.util.ease['easeOutQuad'],
-      duration: 1000,
-      // abort: options.abort && function() {
-      //   return options.abort.call(_this);
-      // },
-      onChange: function(value) {
-        _this.left = value;
-        _this.group.set({
-          left: _this.left,
-          top: _this.top
-        }).setCoords();
-        _this._updateLines();
-        act.canvas.renderAll();
-      },
-      onComplete: function() {
-        act.canvas.renderAll();
-      }
-    });
-
-    fabric.util.animate({
-      startValue: this.top,
-      endValue: op.y,
-      // byValue: options.by,
-      easing: fabric.util.ease['easeOutQuad'],
-      duration: 1000,
-      // abort: options.abort && function() {
-      //   return options.abort.call(_this);
-      // },
-      onChange: function(value) {
-        _this.top = value;
-        _this.group.set({
-          left: _this.left,
-          top: _this.top
-        }).setCoords();
-        _this._updateLines();
-        act.canvas.renderAll();
-      },
-      onComplete: function() {
-        act.canvas.renderAll();
-      }
-    });
+    // fabric.util.animate({
+    //   startValue: this.top,
+    //   endValue: op.y,
+    //   // byValue: options.by,
+    //   easing: fabric.util.ease['easeOutQuad'],
+    //   duration: 1000,
+    //   // abort: options.abort && function() {
+    //   //   return options.abort.call(_this);
+    //   // },
+    //   onChange: function(value) {
+    //     _this.top = value;
+    //     _this.group.set({
+    //       left: _this.left,
+    //       top: _this.top
+    //     }).setCoords();
+    //     _this._updateLines();
+    //     act.canvas.renderAll();
+    //   },
+    //   onComplete: function() {
+    //     act.canvas.renderAll();
+    //   }
+    // });
 
     // this.left = op.x;
     // this.top = op.y;

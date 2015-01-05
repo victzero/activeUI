@@ -91,7 +91,7 @@ $(function() {
       // 找到结束点的坐标,画出线
       if (activeLine) {
         var target = canvas.findTarget(ev);
-        if (!target) {
+        if (!target || !target.get('parentEle')) {
           activeLine.remove();
         } else {
           activeLine.createLink({
