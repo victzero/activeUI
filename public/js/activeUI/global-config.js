@@ -10,7 +10,7 @@ var aconfig = {
     objs: [{
       'type': 101,
       'title': '人物101',
-      'img': '../images/51.svg',
+      'img': '../images/51-s.svg',
       'rcArr': [{
         title: '锁定|解锁',
         click: function() {
@@ -109,7 +109,7 @@ var aconfig = {
     }, {
       'type': 103,
       'title': '人物103',
-      'img': '../images/51.svg',
+      'img': '../images/51-s.svg',
       rcArr: [{
         title: '删除元素',
         click: function() {
@@ -132,7 +132,7 @@ var aconfig = {
     }, {
       'type': 202,
       'title': '人物202',
-      'img': '../images/51.svg',
+      'img': '../images/51-s.svg',
       rcArr: [{
         title: '删除元素',
         click: function() {

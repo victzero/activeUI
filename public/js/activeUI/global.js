@@ -81,6 +81,15 @@ var actMode = {
 };
 act = extend(act, actMode);
 
+// act.wheel = {
+//   now: 1, //实时缩放比例.
+//   offset: 500, //缩放影响比例.
+//   effect: 300, //每次滚动缩放值.
+//   min: 0.2, //最小缩放比例
+//   minCnt: Math.floor((1 - this.min) / (_wheelEach / _wheelChange)),
+//   maxCnt: 10,
+// }
+
 act.guid = (function() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
