@@ -60,7 +60,7 @@ router.get('/appendChildrenSvg', function(req, res) {
       data: {}
     }]
   };
-  for (var i = 0; i < 20; i++) {
+  for (var i = 0; i < 50; i++) {
     data.children.push({
       type: '101',
       title: 't' + i,
