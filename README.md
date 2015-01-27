@@ -15,3 +15,7 @@ activeUI
 4. 暂时还未完全脱离jQuery,会在未来的版本中实现jQuery的脱离.
 
 5. 目前使用node.js来模拟服务器端,实现画布页面的访问和数据的交互.
+
+启动命令:
+node bin/www
+
