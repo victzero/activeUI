@@ -19,3 +19,4 @@ activeUI
 启动命令:
 node bin/www
 
+![demo](http://d.pcs.baidu.com/thumbnail/ce352aa48db3118ed915daa9e10f75f9?fid=117583018-250528-313798968785400&time=1422374400&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-0QFoFDoXP%2F9DXoc4h8Z1lUH7kTI%3D&rt=sh&expires=2h&r=548830900&sharesign=unknown&size=c710_u500&quality=100)
